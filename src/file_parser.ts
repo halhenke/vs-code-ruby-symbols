@@ -33,7 +33,7 @@ export default class FileParser {
       }
     })
     return blocks.filter((block) => (
-      block.end_line && _.includes(["def", "class", "module"], block.type)
+      block.end_line && includes(["function", "module"], block.type)
     ))
   }
 }
@@ -43,41 +43,45 @@ const blockTypes = ["class", "module", "def", "do", "if", "unless", "case", "beg
 class LineParse{
   line;
   constructor(line) { this.line = line }
-  isAClassBlock() { return /class /.test(this.line) }
+  // isAClassBlock() { return /class /.test(this.line) }
   isAModuleBlock() { return /module /.test(this.line)  }
-  isAMethodBlock() { return /def /.test(this.line) }
-  isAFunctionBlock() { return this.line.split(" ").some( word => word == "do" ) }
-  isACaseBlock() { return /case /.test(this.line) }
-  isAExceptionHandlerBlock() { return this.line.trim() == "begin" }
-  isAConditionalBlock() {
-    if (/if /.test(this.line)) { return !/\w/.test(this.line.split("if")[0]) }
-    else if (/unless /.test(this.line)) { return !/\w/.test(this.line.split("unless")[0]) }
+  // isAMethodBlock() { return /def /.test(this.line) }
+  isAFunctionBlock() { 
+    return 
+      this.line.split(" ").some( word => word === "::" ) && 
+      this.line.split(" ").some( word => word === "->" ) 
   }
+  // isAFunctionBlock() { return this.line.split(" ").some( word => word == "do" ) }
+  // isACaseBlock() { return /case /.test(this.line) }
+  // isAExceptionHandlerBlock() { return this.line.trim() == "begin" }
+  // isAConditionalBlock() {
+  //   if (/if /.test(this.line)) { return !/\w/.test(this.line.split("if")[0]) }
+  //   else if (/unless /.test(this.line)) { return !/\w/.test(this.line.split("unless")[0]) }
+  // }
   isBlock() {
     return (
-      this.isAClassBlock()    || this.isAModuleBlock() || this.isAMethodBlock() ||
-      this.isAFunctionBlock() || this.isACaseBlock()   || this.isAConditionalBlock() ||
-      this.isAExceptionHandlerBlock() 
+      this.isAModuleBlock() || this.isAFunctionBlock()
+      // this.isAClassBlock()    || this.isAModuleBlock() || this.isAMethodBlock() ||
+      // this.isAFunctionBlock() || this.isACaseBlock()   || this.isAConditionalBlock() ||
+      // this.isAExceptionHandlerBlock() 
     )
   }
   getBlockType() {
-    if (this.isAClassBlock())      { return "class"  }
+    // if (this.isAClassBlock())      { return "class"  }
     if (this.isAModuleBlock())     { return "module" }
-    if (this.isAMethodBlock())     { return "def"    }
-    if (this.isAFunctionBlock())   { return "do"     }
-    if (this.isACaseBlock())       { return "case"   }
-    if (this.isAConditionalBlock()){ return "if" }
-    if (this.isAExceptionHandlerBlock()){ return "begin" }
+    // if (this.isAMethodBlock())     { return "def"    }
+    if (this.isAFunctionBlock())   { return "function"     }
+    // if (this.isACaseBlock())       { return "case"   }
+    // if (this.isAConditionalBlock()){ return "if" }
+    // if (this.isAExceptionHandlerBlock()){ return "begin" }
     return undefined
   }
   isEndBlock() { return this.line.trim() == "end" }
   getBlockName(blockType) {
-    if (blockType == "class") { return this.line.replace("class", "").trim() }
+    // if (blockType == "class") { return this.line.replace("class", "").trim() }
     if (blockType == "module") { return this.line.replace("module", "").trim() }
-    if (blockType == "def") { return this.line.replace("def", "").trim() }
+    if (blockType == "function") { return this.line.replace("function", "").trim() }
     return undefined
   }
 }
-const _ = {
-  includes: (array, value) => (array.indexOf(value) != -1)
-}
+const includes = (array, value) => (array.indexOf(value) != -1)

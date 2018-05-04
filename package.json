@@ -1,15 +1,15 @@
 {
-    "name": "ruby-symbols",
-    "displayName": "ruby-symbols",
-    "description": "VSCode Ruby symbols search methods",
+    "name": "haskell-symbols",
+    "displayName": "haskell-symbols",
+    "description": "VSCode Haskell symbols search methods",
     "version": "0.1.5",
     "publisher": "miguel-savignano",
-    "author": "Miguel Savignano",
+    "author": "Hal Henke <halhenke@gmail.com>",
     "license": "SEE LICENSE IN LICENSE.md",
     "icon": "images/icon.png",
     "keywords": [
-        "ruby",
-        "ruby symbols",
+        "haskell",
+        "haskell symbols",
         "search code"
     ],
     "engines": {
@@ -19,11 +19,11 @@
         "Languages"
     ],
     "activationEvents": [
-        "onLanguage:ruby"
+        "onLanguage:haskell"
     ],
     "repository": {
         "type": "git",
-        "url": "https://github.com/MiguelSavignano/vs-code-ruby-symbols"
+        "url": "https://github.com/MiguelSavignano/vs-code-haskell-symbols"
     },
     "main": "./out/src/extension",
     "contributes": {

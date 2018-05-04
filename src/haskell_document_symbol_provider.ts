@@ -6,7 +6,7 @@ import {
 } from 'vscode';
 import FileParser from './file_parser'
 
-export default class RubyDocumentSymbolProvider {
+export default class HaskellDocumentSymbolProvider {
   constructor() {}
   provideDocumentSymbols(document, token) {
     let fileText = document.getText()
